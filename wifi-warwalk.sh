@@ -13,12 +13,40 @@ echo ""
 echo "==========================================================="
 echo ""
 
-for cmd in kismet python3 sqlite3 iw pkill find; do
-    if ! command -v "$cmd" >/dev/null 2>&1; then
-        echo "[!] Missing dependency: $cmd"
-        exit 1
+echo "[+] Checking Dependencies..."
+echo ""
+
+install_if_missing() {
+
+    CMD="$1"
+    PKG="$2"
+
+    if ! command -v "$CMD" >/dev/null 2>&1; then
+
+        echo "[!] Missing: $CMD"
+        echo "[+] Installing: $PKG"
+
+        sudo apt update -y
+        sudo apt install -y "$PKG"
+
+        if ! command -v "$CMD" >/dev/null 2>&1; then
+            echo "[!] Failed To Install $PKG"
+            exit 1
+        fi
+
     fi
-done
+}
+
+install_if_missing python3 python3
+install_if_missing sqlite3 sqlite3
+install_if_missing iw iw
+install_if_missing kismet kismet
+install_if_missing pkill procps
+install_if_missing find findutils
+
+echo ""
+echo "[+] Dependencies OK"
+echo ""
 
 read -p "Enter Assessment Folder Name: " PROJECT
 
