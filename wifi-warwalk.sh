@@ -99,7 +99,11 @@ echo ""
 echo "[+] Starting Kismet..."
 echo ""
 
-kismet -c "$IFACE" >/dev/null 2>&1 &
+KISMET_SOURCE="$IFACE:type=linuxwifi"
+
+echo "[+] Source: $KISMET_SOURCE"
+
+kismet -c "$KISMET_SOURCE" >/dev/null 2>&1 &
 
 sleep 10
 
@@ -109,7 +113,7 @@ echo "                    CAPTURE STARTED"
 echo "==========================================================="
 echo ""
 echo "Walk around and collect WiFi networks."
-echo " Visit here to view all wifi Networks : http://localhost:2501/"
+echo "Visit here to view all wifi Networks : http://localhost:2501/"
 echo "Press ENTER when assessment is complete."
 echo ""
 echo "==========================================================="
