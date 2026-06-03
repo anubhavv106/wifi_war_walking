@@ -48,6 +48,28 @@ echo ""
 echo "[+] Dependencies OK"
 echo ""
 
+echo "[+] Checking Kismet Group Permissions..."
+echo ""
+
+if ! groups "$USER" | grep -qw kismet; then
+
+    echo "[!] User is not in kismet group"
+    echo "[+] Adding $USER to kismet group..."
+
+    sudo usermod -aG kismet "$USER"
+
+    echo ""
+    echo "[!] Added user to kismet group."
+    echo "[!] Logout/Login or reboot required."
+    echo "[!] Please run the tool again."
+    echo ""
+
+    exit 0
+fi
+
+echo "[+] Kismet group permission OK"
+echo ""
+
 read -p "Enter Assessment Folder Name: " PROJECT
 
 PROJECT=$(echo "$PROJECT" | tr ' ' '_' | tr -cd '[:alnum:]_-')
